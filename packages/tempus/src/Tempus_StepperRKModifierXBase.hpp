@@ -75,6 +75,7 @@ private:
     RCP<SolutionState<Scalar> > workingState = sh->getWorkingState();
     const Scalar time = workingState->getTime();
     const Scalar dt   = workingState->getTimeStep();
+    const int stageNumber = stepper->getStageNumber();
     RCP<Thyra::VectorBase<Scalar> > x;
 
     switch(actLoc) {
@@ -105,7 +106,7 @@ private:
       case StepperRKAppAction<Scalar>::BEFORE_EXPLICIT_EVAL:
       {
         modType = X_BEFORE_EXPLICIT_EVAL;
-        x = workingState->getX();
+        x = stepper->getStageX();
         break;
       }
       case StepperRKAppAction<Scalar>::END_STAGE:
@@ -125,7 +126,7 @@ private:
         "Error - unknown action location.\n");
     }
 
-    this->modify(x, time, dt, modType);
+    this->modify(x, time, dt, stageNumber, modType);
   }
 
 public:
@@ -145,6 +146,7 @@ public:
   virtual void modify(
     Teuchos::RCP<Thyra::VectorBase<Scalar> > /* x */,
     const Scalar /* time */, const Scalar /* dt */,
+    const int /* stageNumber */,
     const MODIFIER_TYPE modType) = 0;
 
 };

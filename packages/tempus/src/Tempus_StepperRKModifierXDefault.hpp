@@ -39,6 +39,7 @@ public:
   virtual void modify(
     Teuchos::RCP<Thyra::VectorBase<Scalar> > /* x */,
     const Scalar /* time */, const Scalar /* dt */,
+    const int /* stageNumber */,
     const typename StepperRKModifierXBase<Scalar>::MODIFIER_TYPE modType)
   {
     switch(modType) {
